@@ -45,9 +45,16 @@ function CalorieCalculatorPage() {
       very_active: 1.9,
     };
 
-    const totalCalories = bmr * activityMultiplier[activityLevel];
+    const maintenanceCalories = bmr * activityMultiplier[activityLevel];
 
-    setCalories(Math.round(totalCalories));
+    // Add weight goals
+    const result = {
+      maintain: Math.round(maintenanceCalories),
+      lose: Math.round(maintenanceCalories - 500),   // calorie deficit
+      gain: Math.round(maintenanceCalories + 500),   // calorie surplus
+    };
+
+    setCalories(result);
   };
 
   return (
@@ -58,7 +65,15 @@ function CalorieCalculatorPage() {
         onChange={handleChange}
         onSubmit={calculateCalories}
       />
-      {calories && <CalorieResult calories={calories} />}
+
+      {calories && (
+        <div>
+          <h3>Results:</h3>
+          <p>Maintain weight: {calories.maintain} kcal/day</p>
+          <p>Lose weight: {calories.lose} kcal/day</p>
+          <p>Gain weight: {calories.gain} kcal/day</p>
+        </div>
+      )}
     </div>
   );
 }
