@@ -1,9 +1,11 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import "./AddWorkoutPage.css";
 
-function AddWorkoutPage({ addWorkout }) {
+function AddWorkoutPage({ addWorkout, updateWorkout, workouts }) {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const editIndex = searchParams.get("edit");
 
   const [workout, setWorkout] = useState({
     name: "",
@@ -18,17 +20,24 @@ function AddWorkoutPage({ addWorkout }) {
     sets: "",
   });
 
-  // handle workout inputs
+  // LOAD DATA IF EDITING
+  useEffect(() => {
+    if (editIndex !== null && workouts && workouts[editIndex]) {
+      setWorkout(workouts[editIndex]);
+    }
+  }, [editIndex, workouts]);
+
+  // HANDLE WORKOUT INPUT
   const handleWorkoutChange = (e) => {
     setWorkout({ ...workout, [e.target.name]: e.target.value });
   };
 
-  // handle exercise inputs
+  // HANDLE EXERCISE INPUT
   const handleExerciseChange = (e) => {
     setExerciseInput({ ...exerciseInput, [e.target.name]: e.target.value });
   };
 
-  // add exercise
+  // ADD EXERCISE
   const addExercise = () => {
     if (!exerciseInput.name) return;
 
@@ -40,9 +49,20 @@ function AddWorkoutPage({ addWorkout }) {
     setExerciseInput({ name: "", reps: "", sets: "" });
   };
 
-  // save workout
+  //  DELETE EXERCISE
+  const deleteExercise = (index) => {
+    const updated = workout.exercises.filter((_, i) => i !== index);
+    setWorkout({ ...workout, exercises: updated });
+  };
+
+  // SAVE WORKOUT
   const handleSubmit = () => {
-    addWorkout(workout);
+    if (editIndex !== null) {
+      updateWorkout(editIndex, workout);
+    } else {
+      addWorkout(workout);
+    }
+
     navigate("/workouts");
   };
 
@@ -51,9 +71,9 @@ function AddWorkoutPage({ addWorkout }) {
 
       {/* HEADER */}
       <div className="top-bar">
-        <h1>Add Workouts</h1>
+        <h1>{editIndex !== null ? "Edit Workout" : "Add Workout"}</h1>
         <button className="save-btn" onClick={handleSubmit}>
-          Save workout
+          Save Workout
         </button>
       </div>
 
@@ -61,11 +81,10 @@ function AddWorkoutPage({ addWorkout }) {
 
         {/* LEFT SIDE */}
         <div className="left">
-
           <h2>Workout</h2>
 
           <div className="input-row">
-            <label>Work out name:</label>
+            <label>Workout Name:</label>
             <input
               name="name"
               value={workout.name}
@@ -83,23 +102,22 @@ function AddWorkoutPage({ addWorkout }) {
           </div>
 
           <div className="input-row">
-            <label>Work out type:</label>
+            <label>Type:</label>
             <select
               name="type"
               value={workout.type}
               onChange={handleWorkoutChange}
             >
               <option value="">Select Type</option>
-              <option value="Push">Strength</option>
+              <option value="Push">Strenght</option>
               <option value="Pull">Endurance</option>
-              <option value="Legs">Flexability</option>
+              <option value="Legs">Cardio</option>
             </select>
           </div>
         </div>
 
         {/* RIGHT SIDE */}
         <div className="right">
-
           <h2>Exercises</h2>
 
           <div className="exercise-input">
@@ -110,15 +128,15 @@ function AddWorkoutPage({ addWorkout }) {
               onChange={handleExerciseChange}
             />
             <input
-              name="sets"
-              placeholder="Sets"
-              value={exerciseInput.sets}
-              onChange={handleExerciseChange}
-            />
-            <input
               name="reps"
               placeholder="Reps"
               value={exerciseInput.reps}
+              onChange={handleExerciseChange}
+            />
+            <input
+              name="sets"
+              placeholder="Sets"
+              value={exerciseInput.sets}
               onChange={handleExerciseChange}
             />
             <button onClick={addExercise}>+</button>
@@ -126,16 +144,30 @@ function AddWorkoutPage({ addWorkout }) {
 
           <h2>Exercises List</h2>
 
+          {/* HEADER ROW */}
+          <div className="exercise-item header">
+            <span>Exercise</span>
+            <span>Reps</span>
+            <span>Sets</span>
+            <span></span>
+          </div>
+
           <div className="exercise-list">
             {workout.exercises.map((ex, i) => (
               <div key={i} className="exercise-item">
                 <span>{ex.name}</span>
                 <span>{ex.reps}</span>
                 <span>{ex.sets}</span>
+
+                <button
+                  className="delete-ex-btn"
+                  onClick={() => deleteExercise(i)}
+                >
+                  🗑
+                </button>
               </div>
             ))}
           </div>
-
         </div>
       </div>
     </div>

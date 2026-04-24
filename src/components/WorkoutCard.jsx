@@ -1,45 +1,42 @@
 import "./WorkoutCard.css";
 
-function WorkoutCard({ workout, onDelete }) {
+function WorkoutCard({ workout, onDelete, onEdit }) {
   return (
     <div className="workout-card">
 
-      {/* TOP */}
-      <div className="card-top">
+      {/* TOP BAR */}
+      <div className="card-header">
         <span className="tag">{workout.name}</span>
 
-        <div className="info">
+        <div className="meta">
           <span>{workout.duration} mins</span>
           <span>{workout.type}</span>
         </div>
       </div>
 
       {/* TABLE HEADER */}
-      <div className="labels">
+      <div className="exercise-header">
         <span>Exercise</span>
         <span>Reps</span>
         <span>Sets</span>
       </div>
 
-      {/* EXERCISES LIST */}
-      <div className="exercise-container">
-        {workout.exercises && workout.exercises.length > 0 ? (
-          workout.exercises.map((ex, i) => (
-            <div key={i} className="exercise-row">
-              <span>{ex.name}</span>
-              <span>{ex.reps}</span>
-              <span>{ex.sets}</span>
-            </div>
-          ))
-        ) : (
-          <p className="no-ex">No exercises</p>
-        )}
+      {/* EXERCISES */}
+      <div className="exercise-list">
+        {workout.exercises?.map((ex, i) => (
+          <div key={i} className="exercise-row">
+            <span>{ex.name}</span>
+            <span>{ex.reps}</span>
+            <span>{ex.sets}</span>
+          </div>
+        ))}
       </div>
 
-      {/* DELETE */}
-      <button className="delete-btn" onClick={onDelete}>
-        🗑
-      </button>
+      {/* ACTION BUTTONS */}
+      <div className="card-actions">
+        <button className="edit-btn" onClick={onEdit}>✏️</button>
+        <button className="delete-btn" onClick={onDelete}>🗑</button>
+      </div>
     </div>
   );
 }
