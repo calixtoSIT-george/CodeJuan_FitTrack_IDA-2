@@ -1,13 +1,30 @@
 import WorkoutCard from "../components/WorkoutCard";
+import { useNavigate } from "react-router-dom";
+import "./WorkoutsPage.css";
 
 function WorkoutsPage({ workouts, deleteWorkout }) {
-  return (
-    <div>
-      <h2>Workouts</h2>
+  const navigate = useNavigate();
 
-      {workouts.map((w, i) => (
-        <WorkoutCard key={i} workout={w} onDelete={() => deleteWorkout(i)} />
-      ))}
+  return (
+    <div className="workouts-page">
+      <div className="header">
+        <h1>All Workouts</h1>
+          <button
+          className="add-btn"
+          onClick={() => navigate("/add-workout")}>
+          + Add Workout
+        </button>
+      </div>
+
+      <div className="workout-grid">
+        {workouts.map((w, i) => (
+          <WorkoutCard
+            key={i}
+            workout={w}
+            onDelete={() => deleteWorkout(i)}
+          />
+        ))}
+      </div>
     </div>
   );
 }
