@@ -39,18 +39,47 @@
   margin-top: 40px;
 }
 
+/* FADE EDGES */
+.carousel-container::before,
+.carousel-container::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 60px;
+  height: 100%;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.carousel-container::before {
+  left: 0;
+  background: linear-gradient(to right, #020617, transparent);
+}
+
+.carousel-container::after {
+  right: 0;
+  background: linear-gradient(to left, #020617, transparent);
+}
+
 /* SCROLL AREA */
 .workout-scroll {
   display: flex;
   gap: 30px;
   overflow-x: auto;
   scroll-behavior: smooth;
-  padding: 20px 40px;
+  padding: 20px 70px; /* space for arrows */
+  scroll-snap-type: x mandatory;
 }
 
 /* hide scrollbar */
 .workout-scroll::-webkit-scrollbar {
   display: none;
+}
+
+/* each card (IMPORTANT for snap) */
+.workout-card {
+  flex: 0 0 auto;
+  scroll-snap-align: start;
 }
 
 /* ARROWS */
@@ -68,6 +97,10 @@
   cursor: pointer;
   backdrop-filter: blur(10px);
   transition: 0.3s;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .arrow:hover {
