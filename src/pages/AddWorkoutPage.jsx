@@ -20,7 +20,15 @@ function AddWorkoutPage({ addWorkout, updateWorkout, workouts }) {
     sets: "",
   });
 
-  // LOAD DATA IF EDITING
+  // TRACK WHICH EXERCISE IS BEING EDITED
+  const [editingExIndex, setEditingExIndex] = useState(null);
+  const [editingExValue, setEditingExValue] = useState({
+    name: "",
+    reps: "",
+    sets: "",
+  });
+
+  // LOAD DATA IF EDITING WORKOUT
   useEffect(() => {
     if (editIndex !== null && workouts && workouts[editIndex]) {
       setWorkout(workouts[editIndex]);
@@ -40,19 +48,44 @@ function AddWorkoutPage({ addWorkout, updateWorkout, workouts }) {
   // ADD EXERCISE
   const addExercise = () => {
     if (!exerciseInput.name) return;
-
     setWorkout({
       ...workout,
       exercises: [...workout.exercises, exerciseInput],
     });
-
     setExerciseInput({ name: "", reps: "", sets: "" });
   };
 
-  //  DELETE EXERCISE
+  // DELETE EXERCISE
   const deleteExercise = (index) => {
     const updated = workout.exercises.filter((_, i) => i !== index);
     setWorkout({ ...workout, exercises: updated });
+  };
+
+  // START EDITING AN EXERCISE ROW
+  const startEditExercise = (index) => {
+    setEditingExIndex(index);
+    setEditingExValue({ ...workout.exercises[index] });
+  };
+
+  // HANDLE INLINE EDIT INPUT CHANGES
+  const handleEditExChange = (e) => {
+    setEditingExValue({ ...editingExValue, [e.target.name]: e.target.value });
+  };
+
+  // SAVE INLINE EDIT
+  const saveEditExercise = () => {
+    const updated = workout.exercises.map((ex, i) =>
+      i === editingExIndex ? editingExValue : ex
+    );
+    setWorkout({ ...workout, exercises: updated });
+    setEditingExIndex(null);
+    setEditingExValue({ name: "", reps: "", sets: "" });
+  };
+
+  // CANCEL INLINE EDIT
+  const cancelEditExercise = () => {
+    setEditingExIndex(null);
+    setEditingExValue({ name: "", reps: "", sets: "" });
   };
 
   // SAVE WORKOUT
@@ -62,7 +95,6 @@ function AddWorkoutPage({ addWorkout, updateWorkout, workouts }) {
     } else {
       addWorkout(workout);
     }
-
     navigate("/workouts");
   };
 
@@ -109,9 +141,9 @@ function AddWorkoutPage({ addWorkout, updateWorkout, workouts }) {
               onChange={handleWorkoutChange}
             >
               <option value="">Select Type</option>
-              <option value="Push">Strenght</option>
-              <option value="Pull">Endurance</option>
-              <option value="Legs">Cardio</option>
+              <option value="Strength">Strength</option>
+              <option value="Endurance">Endurance</option>
+              <option value="Cardio">Cardio</option>
             </select>
           </div>
         </div>
@@ -153,20 +185,56 @@ function AddWorkoutPage({ addWorkout, updateWorkout, workouts }) {
           </div>
 
           <div className="exercise-list">
-            {workout.exercises.map((ex, i) => (
-              <div key={i} className="exercise-item">
-                <span>{ex.name}</span>
-                <span>{ex.reps}</span>
-                <span>{ex.sets}</span>
-
-                <button
-                  className="delete-ex-btn"
-                  onClick={() => deleteExercise(i)}
-                >
-                  🗑
-                </button>
-              </div>
-            ))}
+            {workout.exercises.map((ex, i) =>
+              editingExIndex === i ? (
+                // INLINE EDIT ROW
+                <div key={i} className="exercise-item editing">
+                  <input
+                    name="name"
+                    value={editingExValue.name}
+                    onChange={handleEditExChange}
+                    className="edit-ex-input"
+                  />
+                  <input
+                    name="reps"
+                    value={editingExValue.reps}
+                    onChange={handleEditExChange}
+                    className="edit-ex-input"
+                  />
+                  <input
+                    name="sets"
+                    value={editingExValue.sets}
+                    onChange={handleEditExChange}
+                    className="edit-ex-input"
+                  />
+                  <div className="edit-ex-actions">
+                    <button className="confirm-ex-btn" onClick={saveEditExercise}>✓</button>
+                    <button className="cancel-ex-btn" onClick={cancelEditExercise}>✕</button>
+                  </div>
+                </div>
+              ) : (
+                // NORMAL ROW
+                <div key={i} className="exercise-item">
+                  <span>{ex.name}</span>
+                  <span>{ex.reps}</span>
+                  <span>{ex.sets}</span>
+                  <div className="row-actions">
+                    <button
+                      className="edit-ex-btn"
+                      onClick={() => startEditExercise(i)}
+                    >
+                      ✏️
+                    </button>
+                    <button
+                      className="delete-ex-btn"
+                      onClick={() => deleteExercise(i)}
+                    >
+                      🗑
+                    </button>
+                  </div>
+                </div>
+              )
+            )}
           </div>
         </div>
       </div>

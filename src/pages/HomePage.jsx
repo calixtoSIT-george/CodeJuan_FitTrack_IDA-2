@@ -21,7 +21,7 @@ function HomePage({ workouts }) {
             workouts.slice(0, 2).map((workout, index) => (
               <div className="workout-card" key={workout.id || index}> 
                 <h3>{workout.name || "Workout"}</h3>
-                <p>{workout.type || "Push/Pull/Legs"}</p>
+                <p>{workout.type}</p>
               </div>
             ))
           ) : (

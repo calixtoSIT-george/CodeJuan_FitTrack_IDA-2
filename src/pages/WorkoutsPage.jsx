@@ -41,6 +41,7 @@ function WorkoutsPage({ workouts, deleteWorkout }) {
               key={i}
               workout={w}
               onDelete={() => deleteWorkout(i)}
+              onEdit={() => navigate(`/add-workout?edit=${i}`)}
             />
           ))}
         </div>
