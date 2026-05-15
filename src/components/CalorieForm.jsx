@@ -40,11 +40,11 @@ function CalorieForm({ formData, onChange, onSubmit }) {
         value={formData.activityLevel}
         onChange={onChange}
       >
-        <option value="sedentary">Sedentary</option>
-        <option value="light">Lightly Active</option>
-        <option value="moderate">Moderately Active</option>
-        <option value="active">Active</option>
-        <option value="very_active">Very Active</option>
+        <option value="sedentary">Sedentary (little or no exercise)</option>
+        <option value="light">Lightly Active (light exercise 1-3 days/week)</option>
+        <option value="moderate">Moderately Active (moderate exercise 3-5 days/week)</option>
+        <option value="active">Active (hard exercise/sports 6-7 days/week)</option>
+        <option value="very_active">Very Active (very hard exercise/sports & physical job)</option>
       </select>
 
       <button type="submit">Calculate</button>
