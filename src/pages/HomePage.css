@@ -1,0 +1,116 @@
+.home-page {
+  min-height: 100vh;
+  /* Deep dark navy background from the image */
+  background: #020617; 
+  font-family: Arial, sans-serif;
+  color: #ffffff; /* Make default text white */
+}
+
+/* NAVBAR */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  /* Transparent background to blend with page */
+  background: transparent; 
+}
+
+.logo {
+  font-size: 30px;
+  font-weight: 700;
+  color: #38bdf8; /* Neon blue logo */
+}
+
+.nav-links {
+  display: flex;
+  gap: 30px;
+  font-size: 16px;
+}
+
+.nav-links span {
+  cursor: pointer;
+  color: #94a3b8; /* Muted gray for links */
+  transition: 0.3s;
+}
+
+.nav-links span:hover {
+  color: #ffffff;
+}
+
+.active {
+  color: #ffffff !important;
+  font-weight: bold;
+}
+
+/* DASHBOARD */
+.dashboard {
+  padding: 40px 60px;
+}
+
+.dashboard h2 {
+  font-size: 32px;
+  margin-bottom: 20px;
+  color: #38bdf8;
+}
+
+/* BADGE */
+.badge {
+  display: inline-block;
+  background: rgba(56, 189, 248, 0.1);
+  border: 1px solid #38bdf8;
+  color: #38bdf8;
+  padding: 8px 18px;
+  border-radius: 25px;
+  margin-bottom: 30px;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+/* GRID */
+.workout-grid {
+  display: flex;
+  justify-content: center; 
+  gap: 60px;               
+  margin-bottom: 40px;
+  flex-wrap: wrap;   
+}
+
+/* CARDS */
+.workout-card {
+  flex: 0 1 450px;    
+  height: 500px; 
+  background: #111827; 
+  border-radius: 24px;
+  border: 1px solid #1e293b;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; 
+  align-items: center; 
+  padding: 40px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4);
+  transition: all 0.3s ease;
+}
+
+.workout-card:hover {
+  transform: translateY(-5px);
+  border-color: #38bdf8; 
+}
+
+/* BUTTON */
+.view-btn {
+  background: #38bdf8; 
+  border: none;
+  padding: 12px 28px;
+  border-radius: 999px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #020617; 
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.view-btn:hover {
+  background: #0ea5e9;
+  box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+}

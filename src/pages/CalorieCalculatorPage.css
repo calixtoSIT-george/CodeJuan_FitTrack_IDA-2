@@ -1,0 +1,61 @@
+.calorie-page {
+  padding: 50px;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #020617, #0f172a);
+  color: #f1f5f9;
+}
+
+.calorie-page h1 {
+  color: #38bdf8;
+  margin-bottom: 30px;
+}
+
+/* LAYOUT */
+.calorie-container {
+  display: flex;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+/* FORM CARD */
+.form-card {
+  background: #1e293b;
+  padding: 25px;
+  border-radius: 20px;
+  flex: 1;
+  min-width: 300px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+}
+
+/* RESULT CARD */
+.result-card {
+  background: #1e293b;
+  padding: 25px;
+  border-radius: 20px;
+  flex: 1;
+  min-width: 300px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+}
+
+.result-card h2 {
+  margin-bottom: 20px;
+}
+
+/* RESULT ROWS */
+.result-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  background: rgba(255,255,255,0.05);
+}
+
+/* COLORS */
+.result-item.lose {
+  border-left: 4px solid #ef4444;
+}
+
+.result-item.gain {
+  border-left: 4px solid #22c55e;
+}
